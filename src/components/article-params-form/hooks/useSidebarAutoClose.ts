@@ -3,9 +3,12 @@ import { useEffect } from 'react';
 // Кастомный хук для закрытия сайдбара
 export function useSidebarAutoClose(
 	rootRef: React.RefObject<HTMLDivElement>,
-	onClickOutside: () => void
+	onClickOutside: () => void,
+	isOpen: boolean
 ) {
 	useEffect(() => {
+		if (!isOpen) return;
+
 		// Обработчик нажатия Escape
 		const handleEsc = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {

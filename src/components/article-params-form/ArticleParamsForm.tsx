@@ -35,21 +35,25 @@ export const ArticleParamsForm = ({
 	params,
 	setParams,
 }: ArticleParamsFormType) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setisMenuOpen] = useState(false);
 	const sidebarRef = useRef<HTMLDivElement>(null);
 	const [formState, setFormState] = useState<ArticleStateType>(params);
 
 	// Кастомный хук для закрытия сайдбара при клике вне его
-	useSidebarAutoClose(sidebarRef, () => {
-		if (isOpen) setIsOpen(false);
-	});
+	useSidebarAutoClose(
+		sidebarRef,
+		() => {
+			setisMenuOpen(false);
+		},
+		isMenuOpen
+	);
 
 	// Обработчик отправки формы
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		setParams(formState);
-		setIsOpen(false);
+		setisMenuOpen(false);
 	};
 
 	// Обработчик сброса формы
@@ -66,14 +70,16 @@ export const ArticleParamsForm = ({
 	};
 
 	// Функция переключения видимости сайдбара по нажатию кнопки
-	const handleToggle = () => setIsOpen((prev) => !prev);
+	const handleToggle = () => setisMenuOpen((prev) => !prev);
 
 	// Рендер элементов формы
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={handleToggle} />
+			<ArrowButton isOpen={isMenuOpen} onClick={handleToggle} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}
+				className={clsx(styles.container, {
+					[styles.container_open]: isMenuOpen,
+				})}
 				ref={sidebarRef}>
 				<form
 					className={styles.form}
